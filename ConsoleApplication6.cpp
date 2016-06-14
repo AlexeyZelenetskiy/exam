@@ -159,27 +159,41 @@ istream & operator>>(istream & stream , array<T> & obj)
 
 }
 
-
+template<class T>
 class Funktor
 {
 public:
-	void operator()()
+	void operator()(T & x)
 	{
-		cout << '1' << endl;
+		x*=x;
 	}
 };
+
+
+void func(int & x)
+{
+	x = 0;
+}
 
 int main()
 {
    array<int> arr(5);
-   Funktor f;
+   Funktor<int> f;
 
-   cin >> arr;
-   cout << arr << endl;
+   int mass[] = {1,2,3,4,5};
+   void (*pf)(int &) = &func;
 
-   for_each(arr.begin() , arr.end() , f);
+   /*cin >> arr;
+   cout << arr << endl;*/
 
-   cout << arr;
+   Iterator<int> i1(mass);
+   Iterator<int> i2(mass);
+   for(int i(0); i < 3; i++)
+	   i2++;
+   for_each(i1, i2 , pf);
+
+   for(int i(0) ; i < 5 ; i++)
+	   cout << mass[i] << " " ;
 
    system("pause");
    return 0;
